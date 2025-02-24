@@ -17,29 +17,19 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Patient {
+public class Patient extends AbstractBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
     @Column(unique = true, nullable = false)
-    private String aadharrNo;
+    private String aadharNo;
 
-//    @ManyToOne
-//    @JoinColumn (name= "doctor_id")
-//    @JsonIgnore
-//    private Doctor doctor;
-//
-//    @ManyToMany
-//    @JoinColumn (name="hospital_id")
-//    @JsonIgnore
-//    private Hospital hospital;
-
-    @ManyToMany(mappedBy = "patients")
+    @OneToMany
     private List<Hospital> hospitals;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Appointment> appointments;
 
 

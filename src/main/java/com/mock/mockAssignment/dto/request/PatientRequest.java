@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class PatientRequest {
     private String name;
-    private String aadharrNo;
+    private String aadharNo;
 }

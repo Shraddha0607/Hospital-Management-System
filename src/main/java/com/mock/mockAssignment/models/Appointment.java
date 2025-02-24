@@ -25,13 +25,13 @@ public class Appointment {
     private Date appointmentDate;
     private String status; // Scheduled, Completed, Cancelled
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    @JsonIgnore
+    @OneToOne
+//    @JoinColumn(name = "doctor_id")
+//    @JsonIgnore
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    @JsonIgnore
-    private Patient patient;
+    @OneToMany
+//    @JoinColumn(name = "patient_id")
+//    @JsonIgnore
+    private List<Patient> patient;
 }

@@ -1,12 +1,12 @@
 package com.mock.mockAssignment.controller;
 import com.mock.mockAssignment.dto.request.HospitalRequest;
+import com.mock.mockAssignment.dto.request.PatientRequest;
+import com.mock.mockAssignment.dto.response.HospitalResponse;
+import com.mock.mockAssignment.dto.response.PatientResponse;
 import com.mock.mockAssignment.models.Hospital;
 import com.mock.mockAssignment.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/hospital")
@@ -20,4 +20,22 @@ public class HospitalController {
         return msg;
     }
 
+    @GetMapping("/{id}")
+    public HospitalResponse getHospital(@PathVariable int id){
+        HospitalResponse hospitalResponse = hospitalService.getHospital(id);
+        return hospitalResponse;
+    }
+
+    @PutMapping("/update/{id}")
+    public HospitalResponse updatePatient(@RequestBody HospitalRequest hospitalRequest, @PathVariable int id){
+        HospitalResponse hospitalResponse = hospitalService.updateHospital(hospitalRequest, id);
+        return hospitalResponse;
+    }
+
+
+    @DeleteMapping ("/{id}")
+    public String deleteHospital(@PathVariable int id){
+        String msg = hospitalService.deleteHospital(id);
+        return msg;
+    }
 }

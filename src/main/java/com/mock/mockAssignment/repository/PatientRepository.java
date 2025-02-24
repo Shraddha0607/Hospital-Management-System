@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
+    Patient findByAadharNo(String aadharNo);
+
 //    @Query("SELECT COUNT(p) FROM Patient p WHERE p.doctor.doctorId = :doctorId")
 //    int countPatientsByDoctor(int doctorId);
 //

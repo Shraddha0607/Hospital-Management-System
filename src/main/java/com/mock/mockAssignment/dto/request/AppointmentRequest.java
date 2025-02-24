@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,5 +16,5 @@ import java.util.Date;
 public class AppointmentRequest {
     private Date appointmentDate;
     private int doctorId;
-    private int patientId;
+    private List<Integer> patientIds;
 }

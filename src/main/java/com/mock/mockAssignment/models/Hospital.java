@@ -24,18 +24,12 @@ public class Hospital {
     private String name;
     private String address;
 
-//    @ManyToMany (mappedBy= "hospital", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private List<Patient> patientList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Doctor> doctors;
 
-    @ManyToMany
-    @JoinTable(
-            name = "hospital_patient",
-            joinColumns = @JoinColumn(name = "hospital_id"),
-            inverseJoinColumns = @JoinColumn(name = "patient_id")
-    )
+    @OneToMany
+    private List<Appointment> appointments;
+
+    @OneToMany
     private List<Patient> patients;
 }

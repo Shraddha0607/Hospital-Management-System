@@ -1,4 +1,4 @@
-package com.mock.mockAssignment.dto.request;
+package com.mock.mockAssignment.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DoctorRequest {
+public class HospitalResponse {
     private String name;
-    private String specialization;
-    private int hospitalId;
+    private String address;
 }

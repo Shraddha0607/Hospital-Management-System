@@ -1,15 +1,26 @@
 package com.mock.mockAssignment.service;
 
 import com.mock.mockAssignment.dto.request.PatientRequest;
+import com.mock.mockAssignment.dto.response.PatientResponse;
 import com.mock.mockAssignment.models.Patient;
+import com.mock.mockAssignment.repository.AbstractBaseRepositoryImpl;
 import com.mock.mockAssignment.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-
-import static java.util.stream.Collectors.groupingBy;
+//@Service
+//@Transactional
+//public class PatientService extends AbstractBaseRepositoryImpl<Patient, Integer>
+//        implements IPatientService{
+//    private PatientRepository patientRepository;
+//
+//    public PatientService(PatientRepository patientRepository) {
+//        super(patientRepository);
+//    }
+//    // other specialized methods from the MyDomainService interface
+//
+//}
 
 @Service
 public class PatientService {
@@ -21,69 +32,44 @@ public class PatientService {
         // need to change to patient class
         Patient patient = new Patient();
         patient.setName(patientRequest.getName());
-        patient.setAadharrNo(patientRequest.getAadharrNo());
+        patient.setAadharNo(patientRequest.getAadharNo());
 
-        patientRepository.save(patient);
-        return "Successfully added";
+        Patient savedPatient = patientRepository.save(patient);
+        return "Successfully added with id " + savedPatient.getId();
     }
 
-    public long getPatientCountById(int id) {
-        long count = 0;
-        try {
-            //count = patientRepository.findAll().stream().filter(x -> x.getDoctor().getId() == id).count();
-        } catch (Exception e) {
-            System.out.println("Error in service");
-            e.printStackTrace();
-        }
-        return count;
+    public PatientResponse getPatient(int id) {   // by passing doctor id
+        Patient patient = patientRepository.findById(id).get();
+
+        // now need to chnage in
+        PatientResponse patientResponse = new PatientResponse();
+        patientResponse.setName(patient.getName());
+        patientResponse.setAadharNo(patient.getAadharNo());
+
+        return patientResponse;
     }
 
-    public Patient getPatientWithMaxVistToHospitals() {
-
-        List<Patient> patients = patientRepository.findAll();
-        Map<Integer, List<Patient>> patientsPerHospital = patients.stream().collect(groupingBy(Patient::getId));
-
-        int maxHospitalCount = 0;
-        int patientIdWithMaxCount = -1;
-        int count = 0;
-        for (Map.Entry<Integer, List<Patient>> patient : patientsPerHospital.entrySet()) {
-            if (patient.getValue().size() > maxHospitalCount) {
-                maxHospitalCount = patient.getValue().size();
-                patientIdWithMaxCount = patient.getKey();
-            }
-            System.out.println("iteration " + count);
-            count ++;
-        }
-        // now till here we get at id
-
-
-        return patientRepository.findById(patientIdWithMaxCount).get();
-//        System.out.println("for loop ended");
-//        return new Patient();
-
-
+    public String deletePatient(int id) {
+        patientRepository.deleteById(id);
+        String msg = "Patient " + id + " deleted successfully ";
+        return msg;
     }
 
-    // Helper method to find a Patient by ID
-//    private Patient findPatientById(Integer id, List<Patient> patients) {
-//        return patients.stream()
-//                .filter(patient -> patient.getId().equals(id))  // Find patient by ID
-//                .findFirst()
-//                .orElseThrow(() -> new RuntimeException("Patient not found"));
-//    }
+    public PatientResponse updatePatient(PatientRequest patientRequest) {
+        String aadharNo = patientRequest.getAadharNo();
 
+        // now update data
+        Patient existingPatient = patientRepository.findByAadharNo(aadharNo);
+        existingPatient.setName(patientRequest.getName());
+        existingPatient.setAadharNo((patientRequest.getAadharNo()));
+
+        Patient updatedPatient = patientRepository.save(existingPatient);
+
+        PatientResponse patientResponse = new PatientResponse();
+        patientResponse.setName(updatedPatient.getName());
+        patientResponse.setAadharNo(updatedPatient.getAadharNo());
+
+        return patientResponse;
+    }
 
 }
-
-
-//public int getPatientsByDoctor(int doctorId) {
-//    return patientRepository.countPatientsByDoctor(doctorId);
-//}
-//
-//public Patient getMostAdmittedPatient() {
-//    return patientRepository.findMostAdmittedPatient();
-//}
-//
-//public Patient getPatientWithMostHospitals() {
-//    return patientRepository.findPatientWithMostHospitals();
-//}
