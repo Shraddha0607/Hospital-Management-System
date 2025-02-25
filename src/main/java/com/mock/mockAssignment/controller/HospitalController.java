@@ -6,6 +6,7 @@ import com.mock.mockAssignment.dto.response.PatientResponse;
 import com.mock.mockAssignment.models.Hospital;
 import com.mock.mockAssignment.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ public class HospitalController {
     @Autowired
     HospitalService hospitalService;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/add")
     public String addHospital(@RequestBody HospitalRequest hospitalRequest){
         String msg = hospitalService.addHospital(hospitalRequest);
